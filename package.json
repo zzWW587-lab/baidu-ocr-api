@@ -1,8 +1,8 @@
 {
   "name": "baidu-ocr-api",
   "version": "1.0.0",
-  "description": "百度OCR API 代理 - Vercel 部署",
-  "main": "api/ocr.js",
+  "description": "百度OCR API 代理 - 腾讯云 EdgeOne Pages",
+  "type": "module",
   "dependencies": {
     "axios": "^1.6.0"
   }
