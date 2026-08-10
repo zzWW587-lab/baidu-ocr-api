@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// ===== 百度OCR配置（请填入您的密钥） =====
+// ===== 百度OCR配置（您的密钥） =====
 const BAIDU_API_KEY = 'xNQ3STog7pIzySxfQB6hkAPC';
 const BAIDU_SECRET_KEY = 'E5213YGl8xdm16Jbs8RbaIPe4w4KPPJQ';
 
@@ -29,12 +29,13 @@ async function getAccessToken() {
     if (response.data.access_token) {
       accessToken = response.data.access_token;
       tokenExpireTime = Date.now() + (response.data.expires_in || 2592000) * 1000;
+      console.log('✅ Access Token 获取成功');
       return accessToken;
     } else {
-      throw new Error('获取Token失败');
+      throw new Error('获取Token失败: ' + JSON.stringify(response.data));
     }
   } catch (error) {
-    console.error('获取Access Token失败:', error.message);
+    console.error('❌ 获取Access Token失败:', error.message);
     throw error;
   }
 }
@@ -51,17 +52,19 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
+  console.log('📥 请求:', req.method, req.url);
+
   // ===== 健康检查 =====
-  if (req.url === '/api/health' || req.query.action === 'health') {
-    return res.status(200).json({ 
-      status: 'ok', 
+  if (req.url === '/api/health' || req.url === '/api/health/') {
+    return res.status(200).json({
+      status: 'ok',
       message: '百度OCR代理服务运行中 (Vercel)',
       timestamp: new Date().toISOString()
     });
   }
 
   // ===== OCR识别 =====
-  if (req.method === 'POST' && req.url === '/api/ocr') {
+  if (req.method === 'POST' && (req.url === '/api/ocr' || req.url === '/api/ocr/')) {
     try {
       const { image } = req.body;
       if (!image) {
@@ -87,7 +90,7 @@ module.exports = async (req, res) => {
       );
 
       if (response.data.error_code) {
-        throw new Error(`百度OCR错误: ${response.data.error_msg}`);
+        throw new Error(`百度OCR错误: ${response.data.error_msg} (code: ${response.data.error_code})`);
       }
 
       // 提取文字
@@ -110,6 +113,10 @@ module.exports = async (req, res) => {
       });
     }
   } else {
-    res.status(404).json({ error: '接口不存在' });
+    res.status(404).json({
+      error: '接口不存在',
+      path: req.url,
+      method: req.method
+    });
   }
 };
