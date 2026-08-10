@@ -1,18 +1,7 @@
 {
   "functions": {
-    "node-functions": {
-      "path": "/api/*",
-      "handler": "api/ocr.js"
+    "api/ocr.js": {
+      "path": "/api/*"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/health",
-      "dest": "/api/ocr.js"
-    },
-    {
-      "src": "/api/ocr",
-      "dest": "/api/ocr.js"
-    }
-  ]
+  }
 }
