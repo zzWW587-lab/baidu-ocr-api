@@ -36,7 +36,6 @@ async function getAccessToken() {
   }
 }
 
-// ===== 改为 export default 格式 =====
 export default async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
