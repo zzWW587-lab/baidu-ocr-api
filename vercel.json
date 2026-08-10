@@ -8,15 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/api/health",
-      "dest": "/api/ocr.js"
-    },
-    {
-      "src": "/api/ocr",
-      "dest": "/api/ocr.js"
-    },
-    {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "/api/ocr.js"
     }
   ]
