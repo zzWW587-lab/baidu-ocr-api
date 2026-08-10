@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "node-functions": {
+      "path": "/api/*",
+      "handler": "api/ocr.js"
+    }
+  }
+}
