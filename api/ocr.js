@@ -36,7 +36,8 @@ async function getAccessToken() {
   }
 }
 
-module.exports = async (req, res) => {
+// ===== 改为 export default 格式 =====
+export default async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -49,7 +50,7 @@ module.exports = async (req, res) => {
   if (req.url === '/api/health' || req.url === '/api/health/') {
     return res.status(200).json({
       status: 'ok',
-      message: '百度OCR代理服务运行中 (Vercel)',
+      message: '百度OCR代理服务运行中 (腾讯云 EdgeOne)',
       timestamp: new Date().toISOString()
     });
   }
